@@ -1,0 +1,41 @@
+.bg {
+    background-color: black;
+    height: 500px;
+}
+
+.tooltip{
+    opacity: 0;
+    transition: opacity 1s, margin 1s;
+    position:absolute;
+    margin: -25px 0 0 0;
+    width:300px;
+    height:100px;
+    overflow:clip;
+    text-align:left;
+    align-items: start;
+    justify-content: left;
+    overflow-clip-margin:0;
+    margin-left:50px;
+}
+.tooltip.show{
+    opacity:1;
+    margin-top: 0;
+}
+.text-header{
+    text-align:left;
+    color:white;
+    width:1000px;
+    height:100px;
+    font-size: 150%;
+    overflow:clip;
+    overflow-clip-margin:0;
+}
+.text-standard{
+    text-align:left;
+    color:lightgray;
+    font-size: 100%;
+    width:1000px;
+    height:100px;
+    overflow:clip;
+    overflow-clip-margin:0;
+}

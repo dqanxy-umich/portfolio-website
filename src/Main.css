@@ -1,0 +1,44 @@
+.body-bg {
+    background-color: lightgray;
+    height: 1000px
+}
+
+.body-title{
+    text-align: left;
+    margin-left: 10%;
+    margin-bottom: 0%;
+    font-size:400%;
+}
+.body-subtitle{
+    font-style: italic;
+    text-align: left;
+    font-size: 150%;
+    margin-left: 15%;
+}
+.body-main{
+    text-align: left;
+    margin-left: 5%;
+}
+.body-card{
+    background-color:white;
+    padding: 30px 40px 30px 10px;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 30px;
+    border-radius: 20px;
+    border-color: #C0C0C0;
+    border-width: 2px;
+    border-style: solid;
+    box-shadow: 0 0 60px 12px #B0B0B0;
+}
+
+.fade-in{
+    opacity:0;
+    transition:opacity 1s, transform 1s;
+    transform: translateY(20vh);
+}
+.fade-in.visible{
+    opacity:1;
+    transform: none;
+    margin-top:0%;
+}
