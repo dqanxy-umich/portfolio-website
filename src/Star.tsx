@@ -32,7 +32,8 @@ export default class Star extends Component<IStarProps,IStarState> {
     rotateMain:number
     rotateSecondary:number
 
-    starTooltip:any
+    //Notify tooltip of events
+    starTooltipRef:any
     constructor(props:IStarProps) {
         super(props)
 
@@ -47,7 +48,7 @@ export default class Star extends Component<IStarProps,IStarState> {
         this.x = props.x;
         this.y = props.y;
 
-        this.starTooltip = React.createRef()
+        this.starTooltipRef = React.createRef()
     }
 
     setHover(isHover:boolean){
@@ -56,7 +57,7 @@ export default class Star extends Component<IStarProps,IStarState> {
         }
         this.isHovering = isHover;
 
-        this.starTooltip.current.setHover(isHover);
+        this.starTooltipRef.current.setHover(isHover);
     }
     update(){
         this.hoverTimer++;
@@ -65,17 +66,26 @@ export default class Star extends Component<IStarProps,IStarState> {
         this.rotateSecondary+=-5*this.rotateVelocity;
         let newDX = Starmap.width/2+(this.x-Starmap.x);
         let newDY = Starmap.height/2-(this.y-Starmap.y);
-        this.starTooltip.current?.setState({width:Math.min(500, Starmap.width/2-(this.x-Starmap.x)-50)})
+        this.starTooltipRef.current?.setState(
+            {
+                width:Math.min(500, Starmap.width/2-(this.x-Starmap.x)-50)
+            })
         this.setState({timer:this.state.timer+1,
             displayX:newDX,
             displayY:newDY,
-            opacity:1-2*Math.max(Math.abs(this.x-Starmap.x)/Starmap.width,Math.abs(this.y-Starmap.y)/Starmap.height)
+            opacity:1-2*Math.max(
+                Math.abs(this.x-Starmap.x)/Starmap.width,
+                Math.abs(this.y-Starmap.y)/Starmap.height)
         })
     }
 
     render(){
         return (
-            <div style={{ position:"absolute", height:0, marginLeft:this.state.displayX, marginTop:this.state.displayY}}>
+            <div style={{
+                position:"absolute",
+                height:0,
+                marginLeft:this.state.displayX,
+                marginTop:this.state.displayY}}>
             <img src={starbgimg} style={{
                 position:"absolute",
                 marginLeft:-25*this.props.scale,marginTop:-25*this.props.scale,
@@ -98,7 +108,7 @@ export default class Star extends Component<IStarProps,IStarState> {
                      Starmap.instance.changeState(StarMapState.MovingToPosition);
                  }}
             />
-            <StarTooltip name={this.props.name} ref={this.starTooltip}></StarTooltip>
+            <StarTooltip name={this.props.name} ref={this.starTooltipRef}></StarTooltip>
         </div>)
     }
 }

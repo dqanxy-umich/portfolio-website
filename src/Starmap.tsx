@@ -27,30 +27,28 @@ export default class Starmap extends Component<IStarMapProps,IStarMapState> {
     static width: number
     static height: number
     static instance: Starmap
-    particleSystem: ParticleSystem
     objects:any[]
-    ref:any
     states:any
     constructor(props: any){
+        //Initialize
         super(props)
-        this.ref = React.createRef()
         this.objects = []
         Starmap.x = 0;
         Starmap.y = 0;
         Starmap.zoom = 1;
         Starmap.width = window.innerWidth;
         Starmap.height = 500;
+        Starmap.instance = this
+
+        //Create global update function
         this.update = this.update.bind(this);
         const animate = () => {
             this.update();
             requestAnimationFrame(animate);
         };
-        this.particleSystem = new ParticleSystem({starmap:this})
         requestAnimationFrame(animate)
-        console.log("Hello World")
-        // @ts-ignore
-        Starmap.instance = this
 
+        //Init state manager
         this.state = {currentState:StarMapState.Idle};
         this.states = {
             [StarMapState.Idle]:new IdleState(),
@@ -81,7 +79,7 @@ export default class Starmap extends Component<IStarMapProps,IStarMapState> {
     render(){
         return (
             <div className = "bg">
-                <ParticleSystem starmap={this}></ParticleSystem>
+                <ParticleSystem starmap={this} count={30}></ParticleSystem>
                 <p style = {{position:"absolute",height:0}}>{Starmap.x},{Starmap.y}</p>
                 <Star starmap={this} children={[]} name={"Home"} x={0} y={0} scale={1.5}></Star>
                 <Star starmap={this} children={[]} name={"Artificial Intelligence"} x={150} y={150} scale={1}></Star>

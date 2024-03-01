@@ -4,7 +4,8 @@ import './Starmap.css';
 import Starmap from "./Starmap";
 
 interface IPSProps{
-    starmap: Starmap
+    starmap: Starmap;
+    count:number;
 }
 
 interface IParticle{
@@ -24,7 +25,7 @@ export default class ParticleSystem extends Component<IPSProps,IPSState> {
         super(props)
         props.starmap.objects.push(this);
         let initialParticles:IParticle[] = []
-        for(let i = 0; i<15; i++){
+        for(let i = 0; i<props.count; i++){
             initialParticles.push({
                 x:Math.random()*Starmap.width,
                 y:Math.random()*Starmap.height,
@@ -67,7 +68,11 @@ export default class ParticleSystem extends Component<IPSProps,IPSState> {
         let renderParticles = this.state.particles.map((particle: any) => {
             // Update logic here, like moving the particles
             // This is a simple example that should be replaced with your actual update logic
-            return <img src={particleImg} style={{ position:"absolute", marginLeft: particle.x, marginTop: particle.y, opacity:Math.min(50,Math.abs((particle.timer+50)%500 - 50))/150}} />
+            return <img src={particleImg}
+                        style={{
+                            position:"absolute",
+                            marginLeft: particle.x, marginTop: particle.y,
+                            opacity:Math.min(50,Math.abs((particle.timer+50)%500 - 50))/150}} />
         });
         return (
             <div style = {{position:"absolute",height:0}}>
