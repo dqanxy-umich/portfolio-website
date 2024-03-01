@@ -1,0 +1,37 @@
+{
+  "stars": [
+    {
+      "name": "Home",
+      "scale": 1.5,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "name": "Artificial Intelligence",
+      "scale": 1,
+      "x": 150,
+      "y": 150
+    },
+    {
+      "name": "About Me",
+      "scale": 1,
+      "x": 300,
+      "y": -120
+    },
+    {
+      "name": "Full-Stack Development",
+      "scale": 1,
+      "x": -190,
+      "y": 120
+    },
+    {
+      "name": "Virtual Experiences",
+      "scale": 1,
+      "x": -130,
+      "y": -180
+    }
+  ],
+  "adjacency-matrix": {
+    "0": [1,2,3,4]
+  }
+}
