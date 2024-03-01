@@ -1,7 +1,8 @@
-import React, {Component, RefObject} from 'react';
+import React, {Component, ReactElement, RefObject} from 'react';
 import './Starmap.css';
 import Star from './Star';
 import ParticleSystem from "./ParticleSystem";
+import Config from './smstates/testconfig.json'
 
 import IdleState from './smstates/IdleState'
 import MovingState from "./smstates/MovingState";
@@ -77,15 +78,17 @@ export default class Starmap extends Component<IStarMapProps,IStarMapState> {
     }
 
     render(){
+        let stars:ReactElement[] = []
+        Config.stars.forEach((starConfig)=>{
+                stars.push(<Star starmap={this} children={[]} name={starConfig.name} x={starConfig.x} y={starConfig.y} scale={starConfig.scale}></Star>);
+            }
+        )
+
         return (
             <div className = "bg">
                 <ParticleSystem starmap={this} count={30}></ParticleSystem>
                 <p style = {{position:"absolute",height:0}}>{Starmap.x},{Starmap.y}</p>
-                <Star starmap={this} children={[]} name={"Home"} x={0} y={0} scale={1.5}></Star>
-                <Star starmap={this} children={[]} name={"Artificial Intelligence"} x={150} y={150} scale={1}></Star>
-                <Star starmap={this} children={[]} name={"About Me"} x={300} y={-120} scale={1}></Star>
-                <Star starmap={this} children={[]} name={"Full-Stack Development"} x={-190} y={120} scale={1}></Star>
-                <Star starmap={this} children={[]} name={"Virtual Experiences"} x={-130} y={-180} scale={1}></Star>
+                {stars}
             </div>
         );
     }
