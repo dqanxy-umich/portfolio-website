@@ -4,7 +4,6 @@ import './Starmap.css';
 import Starmap from "./Starmap";
 
 interface IPSProps{
-    starmap: Starmap;
     count:number;
 }
 
@@ -20,10 +19,9 @@ interface IPSState {
 }
 
 export default class ParticleSystem extends Component<IPSProps,IPSState> {
-    starmap:Starmap
     constructor(props:IPSProps){
         super(props)
-        props.starmap.objects.push(this);
+        Starmap.instance.objects.push(this);
         let initialParticles:IParticle[] = []
         for(let i = 0; i<props.count; i++){
             initialParticles.push({
@@ -33,7 +31,6 @@ export default class ParticleSystem extends Component<IPSProps,IPSState> {
                 ySpeed:.3*(Math.random()-.5),
                 timer:Math.random()*500 })
         }
-        this.starmap = props.starmap;
         this.state = { particles: initialParticles}
     }
     static particleUpdate(particle:IParticle){

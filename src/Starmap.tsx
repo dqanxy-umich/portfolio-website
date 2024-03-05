@@ -1,11 +1,13 @@
 import React, {Component, ReactElement, RefObject} from 'react';
 import './Starmap.css';
-import Star from './Star';
+import Star from './Star/Star';
 import ParticleSystem from "./ParticleSystem";
 import Config from './smstates/testconfig.json'
 
 import IdleState from './smstates/IdleState'
 import MovingState from "./smstates/MovingState";
+import {create} from "node:domain";
+import StarModel from "./Star/StarModel";
 
 interface IStarMapProps {
 }
@@ -30,16 +32,44 @@ export default class Starmap extends Component<IStarMapProps,IStarMapState> {
     static instance: Starmap
     objects:any[]
     states:any
+    starList:StarModel[]
     constructor(props: any){
         //Initialize
         super(props)
+        console.log("Starmap is being built")
         this.objects = []
         Starmap.x = 0;
         Starmap.y = 0;
         Starmap.zoom = 1;
         Starmap.width = window.innerWidth;
         Starmap.height = 500;
+
+        this.starList = []
+
         Starmap.instance = this
+
+        Config.stars.forEach((starConfig)=>{
+                let starProps = {
+                    //starmap:this,
+                    //children:[],
+                    name:starConfig.name,
+                    scale:starConfig.scale,
+                    x:starConfig.x,
+                    y:starConfig.y,
+                }
+
+
+                this.starList.push(new StarModel(starProps));
+            }
+        )
+
+
+        //Init state manager
+        this.state = {currentState:StarMapState.Idle};
+        this.states = {
+            [StarMapState.Idle]:new IdleState(),
+            [StarMapState.MovingToPosition]:new MovingState(),
+        };
 
         //Create global update function
         this.update = this.update.bind(this);
@@ -48,13 +78,6 @@ export default class Starmap extends Component<IStarMapProps,IStarMapState> {
             requestAnimationFrame(animate);
         };
         requestAnimationFrame(animate)
-
-        //Init state manager
-        this.state = {currentState:StarMapState.Idle};
-        this.states = {
-            [StarMapState.Idle]:new IdleState(),
-            [StarMapState.MovingToPosition]:new MovingState(),
-        };
     }
 
     //Update all subcomponents. Only objects that change state in their update function
@@ -67,6 +90,7 @@ export default class Starmap extends Component<IStarMapProps,IStarMapState> {
                 obj.update?.();
             }
         );
+        console.log(this.starList.length)
     }
 
     changeState(sms:StarMapState){
@@ -78,15 +102,18 @@ export default class Starmap extends Component<IStarMapProps,IStarMapState> {
     }
 
     render(){
-        let stars:ReactElement[] = []
-        Config.stars.forEach((starConfig)=>{
-                stars.push(<Star starmap={this} children={[]} name={starConfig.name} x={starConfig.x} y={starConfig.y} scale={starConfig.scale}></Star>);
-            }
-        )
+
+        if(Starmap.instance !== this){
+            return(<div></div>);
+        }
+
+        let stars:ReactElement[] = this.starList.map((smodel)=>{
+            return <Star model={smodel}/>
+        })
 
         return (
             <div className = "bg">
-                <ParticleSystem starmap={this} count={30}></ParticleSystem>
+                <ParticleSystem count={30}></ParticleSystem>
                 <p style = {{position:"absolute",height:0}}>{Starmap.x},{Starmap.y}</p>
                 {stars}
             </div>

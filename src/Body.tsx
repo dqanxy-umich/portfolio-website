@@ -1,7 +1,7 @@
 import React, {Component, RefObject} from 'react';
 import './Main.css';
 import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
-import Star from './Star';
+import Star from './Star/Star';
 import ParticleSystem from "./ParticleSystem";
 import FadeInSection from "./FadeInSection";
 import {Fade} from "@chakra-ui/react";
