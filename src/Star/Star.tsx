@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import '../Starmap.css';
 import starimg from "../sprites/star.png";
 import starbgimg from "../sprites/starbg.png";
@@ -11,72 +11,81 @@ export interface IStarProps {
     //children: Star[];
     model:StarModel;
 }
-interface IStarState {
-    model:StarModel
-}
 
-export default class Star extends Component<IStarProps,IStarState> {
-
+export default function Star(props:IStarProps) {
     //Notify tooltip of events
-    starTooltipRef:any
-    isHovering:boolean
-    hoverTimer:number
-    constructor(props:IStarProps) {
-        super(props)
-        Starmap.instance.objects.push(this);
-        this.isHovering = false;
-        this.hoverTimer = 0;
-        this.starTooltipRef = React.createRef()
-        this.state = {model:this.props.model}
-    }
 
-    setHover(isHover:boolean){
-        if(!this.isHovering&&isHover){
-            this.state.model.hoverTimer = 0;
+    const [model, setModel] = useState(props.model);
+
+
+    const starTooltipRef:any = React.createRef()
+    function setHover(isHover:boolean){
+        if(!model.isHovering&&isHover){
+            model.hoverTimer = 0;
         }
-        this.state.model.isHovering = isHover;
+        model.isHovering = isHover;
 
-        this.starTooltipRef.current.setHover(isHover);
+        starTooltipRef.current.setHover(isHover);
+        updateS(model);
+        console.log(model.isHovering)
+        console.log("HOver is set")
+    }
+    function updateS(model:StarModel){
+        // starTooltipRef.current?.setState(
+        //     {
+        //         width: Math.min(500, Starmap.width / 2 - (model.x - Starmap.x) - 50)
+        //     })
+        model.updateStar()
+
+        setModel({...model, updateStar:model.updateStar })
+
     }
 
-    update(){
-        this.starTooltipRef.current?.setState(
-            {
-                width: Math.min(500, Starmap.width / 2 - (this.state.model.x - Starmap.x) - 50)
-            })
-        this.setState({model:this.state.model.updateStar()})
+    if(!model.rendered){
+        Starmap.instance.objects.push({update:()=>updateS(model)})
     }
 
-    render(){
-        return (
-            <div style={{
-                position:"absolute",
-                height:0,
-                marginLeft:this.state.model.displayX,
-                marginTop:this.state.model.displayY}}>
+
+    // const requestRef:any = React.useRef()
+    //
+    // const animate = () => {
+    //     update();
+    //     requestAnimationFrame(animate);
+    // };
+    //
+    // React.useEffect(() => {
+    //     requestRef.current = requestAnimationFrame(animate);
+    //     return () => cancelAnimationFrame(requestRef.current);
+    // }, []);
+    // requestAnimationFrame(animate)
+    return (
+        <div style={{
+            position:"absolute",
+            height:0,
+            marginLeft:model.displayX,
+            marginTop:model.displayY}}>
             <img src={starbgimg} style={{
                 position:"absolute",
-                marginLeft:-25*this.state.model.scale,marginTop:-25*this.state.model.scale,
-                width:50*this.state.model.scale,height:50*this.state.model.scale,
-                transform: `rotate(${this.state.model.rotateSecondary}deg)`,
-                opacity:this.state.model.opacity}}/>
+                marginLeft:-25*model.scale,marginTop:-25*model.scale,
+                width:50*model.scale,height:50*model.scale,
+                transform: `rotate(${model.rotateSecondary}deg)`,
+                opacity:model.opacity}}/>
             <img src={starimg}
                  style={{
                      position:"absolute",
-                     marginLeft:-25*this.state.model.scale,marginTop:-25*this.state.model.scale,
-                     width:50*this.state.model.scale,height:50*this.state.model.scale,
-                     opacity:.8*this.state.model.opacity,
-                     transform: `rotate(${this.state.model.rotateMain}deg)`}}
-                 onMouseEnter={() => this.setHover(true)}
-                 onMouseLeave={() => this.setHover(false)}
+                     marginLeft:-25*model.scale,marginTop:-25*model.scale,
+                     width:50*model.scale,height:50*model.scale,
+                     opacity:.8*model.opacity,
+                     transform: `rotate(${model.rotateMain}deg)`}}
+                 onMouseEnter={() => {setHover(true);}}
+                 onMouseLeave={() => setHover(false)}
                  onClick={()=>{
                      let movState = Starmap.instance.states[StarMapState.MovingToPosition]
-                     movState.targetX = this.state.model.x;
-                     movState.targetY = this.state.model.y;
+                     movState.targetX = model.x;
+                     movState.targetY = model.y;
                      Starmap.instance.changeState(StarMapState.MovingToPosition);
                  }}
             />
-            <StarTooltip name={this.state.model.name} ref={this.starTooltipRef}></StarTooltip>
+            <StarTooltip name={model.name} ref={starTooltipRef}></StarTooltip>
         </div>)
-    }
 }

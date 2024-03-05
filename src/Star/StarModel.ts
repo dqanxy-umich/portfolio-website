@@ -2,7 +2,7 @@ import Starmap from "../Starmap";
 import React from "react";
 
 
-export interface IStarProps {
+export interface IStarModelProps {
     //No cycles.
     //children: Star[];
     name: string;
@@ -22,6 +22,7 @@ export default class StarModel {
     isHovering:boolean
     x:number
     y:number
+    rendered:boolean
 
     name:string;
     scale:number;
@@ -29,7 +30,7 @@ export default class StarModel {
     rotateMain:number
     rotateSecondary:number
 
-    constructor(props:IStarProps) {
+    constructor(props:IStarModelProps) {
         //Starmap.instance.starList.push(this);
         console.log(props.x)
         this.timer=Math.random()*300
@@ -43,6 +44,7 @@ export default class StarModel {
         this.rotateMain = this.timer
         this.rotateSecondary = -5*this.timer
 
+        this.rendered = false;
 
         this.x = props.x;
         this.y = props.y;
@@ -62,6 +64,7 @@ export default class StarModel {
         this.timer++;
         this.displayX = newDX
         this.displayY = newDY
+        this.rendered = true;
         this.opacity = 1 - 2 * Math.max(
             Math.abs(this.x - Starmap.x) / Starmap.width,
             Math.abs(this.y - Starmap.y) / Starmap.height)

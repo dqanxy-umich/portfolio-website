@@ -84,13 +84,11 @@ export default class Starmap extends Component<IStarMapProps,IStarMapState> {
     //will be re-rendered.
     update(){
         Starmap.width = window.innerWidth;
-        console.log(window.innerWidth);
         this.states[this.state.currentState].update();
         this.objects.forEach((obj:any)=>{
                 obj.update?.();
             }
         );
-        console.log(this.starList.length)
     }
 
     changeState(sms:StarMapState){
