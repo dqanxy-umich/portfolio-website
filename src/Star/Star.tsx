@@ -16,19 +16,19 @@ export default function Star(props:IStarProps) {
     //Notify tooltip of events
 
     const [model, setModel] = useState(props.model);
+    const [isHovering, setIsHovering] = useState(false);
 
 
-    const starTooltipRef:any = React.createRef()
     function setHover(isHover:boolean){
         if(!model.isHovering&&isHover){
             model.hoverTimer = 0;
         }
         model.isHovering = isHover;
 
-        starTooltipRef.current.setHover(isHover);
         //updateS(model);
         console.log(model.isHovering)
         console.log("HOver is set")
+        setIsHovering(isHover);
     }
     // function updateS(model:StarModel){
     //     // starTooltipRef.current?.setState(
@@ -86,6 +86,6 @@ export default function Star(props:IStarProps) {
                      Starmap.instance.changeState(StarMapState.MovingToPosition);
                  }}
             />
-            <StarTooltip starModel = {model} name={model.name} ref={starTooltipRef}></StarTooltip>
+            <StarTooltip isHover={isHovering} width={Math.min(500, Starmap.width / 2 - (model.x - Starmap.x) - 50)} starModel = {model} name={model.name}></StarTooltip>
         </div>)
 }
