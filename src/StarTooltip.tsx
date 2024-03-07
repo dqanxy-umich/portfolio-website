@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
 import './Starmap.css';
+import Starmap from "./Starmap";
 import tooltipimg from "./sprites/tooltip.png"
+import StarModel from "./Star/StarModel"
 interface ISTProps {
     name: string;
+    starModel: StarModel;
 }
 interface ISTState {
     width: number;
@@ -16,7 +19,18 @@ export default class StarTooltip extends Component<ISTProps,ISTState> {
         this.ref = React.createRef()
         this.state = {width:500};
         this.isToggled = false;
+        Starmap.instance.objects.push(this)
     }
+
+    update(){
+        this.setState(
+            {
+                width: Math.min(500, Starmap.width / 2 - (this.props.starModel.x - Starmap.x) - 50)
+            })
+
+    }
+
+
     setHover(isHover:boolean){
         if(this.isToggled!=isHover){
             this.isToggled = isHover;

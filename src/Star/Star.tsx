@@ -26,24 +26,24 @@ export default function Star(props:IStarProps) {
         model.isHovering = isHover;
 
         starTooltipRef.current.setHover(isHover);
-        updateS(model);
+        //updateS(model);
         console.log(model.isHovering)
         console.log("HOver is set")
     }
-    function updateS(model:StarModel){
-        // starTooltipRef.current?.setState(
-        //     {
-        //         width: Math.min(500, Starmap.width / 2 - (model.x - Starmap.x) - 50)
-        //     })
-        model.updateStar()
-
-        setModel({...model, updateStar:model.updateStar })
-
-    }
-
-    if(!model.rendered){
-        Starmap.instance.objects.push({update:()=>updateS(model)})
-    }
+    // function updateS(model:StarModel){
+    //     // starTooltipRef.current?.setState(
+    //     //     {
+    //     //         width: Math.min(500, Starmap.width / 2 - (model.x - Starmap.x) - 50)
+    //     //     })
+    //     model.updateStar()
+    //
+    //     setModel({...model, updateStar:model.updateStar })
+    //
+    // }
+    //
+    // if(!model.rendered){
+    //     Starmap.instance.objects.push({update:()=>updateS(model)})
+    // }
 
 
     // const requestRef:any = React.useRef()
@@ -86,6 +86,6 @@ export default function Star(props:IStarProps) {
                      Starmap.instance.changeState(StarMapState.MovingToPosition);
                  }}
             />
-            <StarTooltip name={model.name} ref={starTooltipRef}></StarTooltip>
+            <StarTooltip starModel = {model} name={model.name} ref={starTooltipRef}></StarTooltip>
         </div>)
 }

@@ -19,6 +19,7 @@ export enum StarMapState{
 }
 
 interface IStarMapState {
+    starList:StarModel[]
     currentState: StarMapState;
 }
 
@@ -32,7 +33,6 @@ export default class Starmap extends Component<IStarMapProps,IStarMapState> {
     static instance: Starmap
     objects:any[]
     states:any
-    starList:StarModel[]
     constructor(props: any){
         //Initialize
         super(props)
@@ -44,7 +44,7 @@ export default class Starmap extends Component<IStarMapProps,IStarMapState> {
         Starmap.width = window.innerWidth;
         Starmap.height = 500;
 
-        this.starList = []
+        let starList:StarModel[] = []
 
         Starmap.instance = this
 
@@ -59,13 +59,13 @@ export default class Starmap extends Component<IStarMapProps,IStarMapState> {
                 }
 
 
-                this.starList.push(new StarModel(starProps));
+                starList.push(new StarModel(starProps));
             }
         )
 
 
         //Init state manager
-        this.state = {currentState:StarMapState.Idle};
+        this.state = {currentState:StarMapState.Idle, starList:starList};
         this.states = {
             [StarMapState.Idle]:new IdleState(),
             [StarMapState.MovingToPosition]:new MovingState(),
@@ -89,6 +89,10 @@ export default class Starmap extends Component<IStarMapProps,IStarMapState> {
                 obj.update?.();
             }
         );
+        let newStarList = this.state.starList.map((obj:StarModel)=>{
+            return obj.updateStar();
+        })
+        this.setState({starList:newStarList});
     }
 
     changeState(sms:StarMapState){
@@ -105,7 +109,7 @@ export default class Starmap extends Component<IStarMapProps,IStarMapState> {
             return(<div></div>);
         }
 
-        let stars:ReactElement[] = this.starList.map((smodel)=>{
+        let stars:ReactElement[] = this.state.starList.map((smodel)=>{
             return <Star model={smodel}/>
         })
 
