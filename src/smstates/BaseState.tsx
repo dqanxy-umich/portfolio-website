@@ -1,4 +1,4 @@
-import Starmap from "../Starmap";
+import StarmapComponent from "../Starmap/StarmapComponent";
 
 //Not react components.
 export default abstract class BaseState{

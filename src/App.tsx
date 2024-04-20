@@ -1,13 +1,13 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Starmap from "./Starmap";
+import StarmapComponent from "./Starmap/StarmapComponent";
 import Body from "./Body";
 
 function App() {
   return (
           <div className="App">
-              <Starmap></Starmap>
+              <StarmapComponent></StarmapComponent>
 
               <Body></Body>
 

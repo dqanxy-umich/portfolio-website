@@ -1,7 +1,7 @@
 import React from 'react';
-import './Starmap.css';
-import tooltipimg from "./sprites/tooltip.png"
-import StarModel from "./Star/StarModel"
+import '../Starmap.css';
+import tooltipimg from "../sprites/tooltip.png"
+import StarModel from "./StarModel"
 interface ISTProps {
     name: string;
     starModel: StarModel;

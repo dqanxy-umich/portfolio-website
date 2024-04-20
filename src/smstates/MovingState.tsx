@@ -1,5 +1,5 @@
 import BaseState from "./BaseState";
-import Starmap, {StarMapState} from "../Starmap";
+import StarmapComponent, {StarMapState} from "../Starmap/StarmapComponent";
 
 //Not react components.
 export default class MovingState extends BaseState{
@@ -15,13 +15,13 @@ export default class MovingState extends BaseState{
 
     }
     update(){
-        Starmap.x = Starmap.x + (this.targetX-Starmap.x)*.02;
-        Starmap.y = Starmap.y + (this.targetY-Starmap.y)*.02;
+        StarmapComponent.x = StarmapComponent.x + (this.targetX-StarmapComponent.x)*.02;
+        StarmapComponent.y = StarmapComponent.y + (this.targetY-StarmapComponent.y)*.02;
 
         if(this.animTimer>150){
-            Starmap.x = this.targetX;
-            Starmap.y = this.targetY;
-            Starmap.instance.changeState(StarMapState.Idle);
+            StarmapComponent.x = this.targetX;
+            StarmapComponent.y = this.targetY;
+            StarmapComponent.instance.changeState(StarMapState.Idle);
         }
     }
     cancel(){

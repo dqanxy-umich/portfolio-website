@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import particleImg from "./sprites/particle.png";
 import './Starmap.css';
-import Starmap from "./Starmap";
+import StarmapComponent from "./Starmap/StarmapComponent";
 
 interface IPSProps{
     count:number;
@@ -21,12 +21,12 @@ interface IPSState {
 export default class ParticleSystem extends Component<IPSProps,IPSState> {
     constructor(props:IPSProps){
         super(props)
-        Starmap.instance.objects.push(this);
+        StarmapComponent.instance.objects.push(this);
         let initialParticles:IParticle[] = []
         for(let i = 0; i<props.count; i++){
             initialParticles.push({
-                x:Math.random()*Starmap.width,
-                y:Math.random()*Starmap.height,
+                x:Math.random()*StarmapComponent.width,
+                y:Math.random()*StarmapComponent.height,
                 xSpeed:.3*(Math.random()-.5),
                 ySpeed:.3*(Math.random()-.5),
                 timer:Math.random()*500 })
@@ -36,19 +36,19 @@ export default class ParticleSystem extends Component<IPSProps,IPSState> {
     static particleUpdate(particle:IParticle){
         particle.timer+=1
         if(particle.timer%500<=1){
-            particle.x = Math.random()*Starmap.width
-            particle.y = Math.random()*Starmap.height
+            particle.x = Math.random()*StarmapComponent.width
+            particle.y = Math.random()*StarmapComponent.height
             particle.xSpeed = .3*(Math.random()-.5);
             particle.ySpeed = .3*(Math.random()-.5);
         }
         particle.x += particle.xSpeed;
         particle.y += particle.ySpeed;
 
-        if(particle.x>Starmap.width-50){
+        if(particle.x>StarmapComponent.width-50){
             particle.xSpeed = 0;
-            particle.x = Starmap.width-50;
+            particle.x = StarmapComponent.width-50;
         }
-        if(particle.y>Starmap.height-11){
+        if(particle.y>StarmapComponent.height-11){
             particle.ySpeed = 0;
         }
     }

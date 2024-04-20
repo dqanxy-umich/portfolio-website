@@ -1,4 +1,4 @@
-import Starmap from "../Starmap";
+import StarmapComponent from "../Starmap/StarmapComponent";
 import BaseState from "./BaseState";
 
 //Not react components.

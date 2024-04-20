@@ -1,5 +1,5 @@
 import BaseState from "./BaseState";
-import Starmap from "../Starmap";
+import StarmapComponent from "../Starmap/StarmapComponent";
 
 //Not react components.
 export default  class StateTemplate extends BaseState{

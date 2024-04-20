@@ -1,13 +1,14 @@
 import React, {Component, ReactElement, RefObject} from 'react';
-import './Starmap.css';
-import Star from './Star/Star';
-import ParticleSystem from "./ParticleSystem";
-import Config from './smstates/testconfig.json'
+import '../Starmap.css';
+import Star from '../Star/Star';
+import ParticleSystem from "../ParticleSystem";
+import Config from '../smstates/testconfig.json'
 
-import IdleState from './smstates/IdleState'
-import MovingState from "./smstates/MovingState";
+import IdleState from '../smstates/IdleState'
+import MovingState from "../smstates/MovingState";
 import {create} from "node:domain";
-import StarModel from "./Star/StarModel";
+import StarModel from "../Star/StarModel";
+import StarLine from '../StarLine';
 
 interface IStarMapProps {
 }
@@ -23,14 +24,14 @@ interface IStarMapState {
     currentState: StarMapState;
 }
 
-export default class Starmap extends Component<IStarMapProps,IStarMapState> {
+export default class StarmapComponent extends Component<IStarMapProps,IStarMapState> {
 
     static x: number //Center of the screen
     static y: number //Center of the screen
     static zoom:number
     static width: number
     static height: number
-    static instance: Starmap
+    static instance: StarmapComponent
     objects:any[]
     states:any
     constructor(props: any){
@@ -38,15 +39,15 @@ export default class Starmap extends Component<IStarMapProps,IStarMapState> {
         super(props)
         console.log("Starmap is being built")
         this.objects = []
-        Starmap.x = 0;
-        Starmap.y = 0;
-        Starmap.zoom = 1;
-        Starmap.width = window.innerWidth;
-        Starmap.height = 500;
+        StarmapComponent.x = 0;
+        StarmapComponent.y = 0;
+        StarmapComponent.zoom = 1;
+        StarmapComponent.width = window.innerWidth;
+        StarmapComponent.height = 500;
 
         let starList:StarModel[] = []
 
-        Starmap.instance = this
+        StarmapComponent.instance = this
 
         Config.stars.forEach((starConfig)=>{
                 let starProps = {
@@ -62,6 +63,12 @@ export default class Starmap extends Component<IStarMapProps,IStarMapState> {
                 starList.push(new StarModel(starProps));
             }
         )
+
+
+        //Init starlines
+        // starList.forEach((star)=>{
+        //     star;
+        // }
 
 
         //Init state manager
@@ -83,7 +90,7 @@ export default class Starmap extends Component<IStarMapProps,IStarMapState> {
     //Update all subcomponents. Only objects that change state in their update function
     //will be re-rendered.
     update(){
-        Starmap.width = window.innerWidth;
+        StarmapComponent.width = window.innerWidth;
         this.states[this.state.currentState].update();
         this.objects.forEach((obj:any)=>{
                 obj.update?.();
@@ -103,9 +110,14 @@ export default class Starmap extends Component<IStarMapProps,IStarMapState> {
         this.setState({currentState:sms});
     }
 
+    //Translate to display coordinates
+    static translateX(x:number){
+        return x - StarmapComponent.x + StarmapComponent.width/2;
+    }
+
     render(){
 
-        if(Starmap.instance !== this){
+        if(StarmapComponent.instance !== this){
             return(<div></div>);
         }
 
@@ -116,8 +128,9 @@ export default class Starmap extends Component<IStarMapProps,IStarMapState> {
         return (
             <div className = "bg">
                 <ParticleSystem count={30}></ParticleSystem>
-                <p style = {{position:"absolute",height:0}}>{Starmap.x},{Starmap.y}</p>
+                <p style = {{position:"absolute",height:0}}>{StarmapComponent.x},{StarmapComponent.y}</p>
                 {stars}
+                <StarLine parentStar={this.state.starList[0]} childStar={this.state.starList[1]}></StarLine>
             </div>
         );
     }

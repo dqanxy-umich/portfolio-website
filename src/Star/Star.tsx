@@ -2,8 +2,8 @@ import React, {Component, useState} from 'react';
 import '../Starmap.css';
 import starimg from "../sprites/star.png";
 import starbgimg from "../sprites/starbg.png";
-import Starmap, {StarMapState} from "../Starmap";
-import StarTooltip from "../StarTooltip";
+import StarmapComponent, {StarMapState} from "../Starmap/StarmapComponent";
+import StarTooltip from "./StarTooltip";
 import StarModel from "./StarModel"
 
 export interface IStarProps {
@@ -80,12 +80,12 @@ export default function Star(props:IStarProps) {
                  onMouseEnter={() => {setHover(true);}}
                  onMouseLeave={() => setHover(false)}
                  onClick={()=>{
-                     let movState = Starmap.instance.states[StarMapState.MovingToPosition]
+                     let movState = StarmapComponent.instance.states[StarMapState.MovingToPosition]
                      movState.targetX = model.x;
                      movState.targetY = model.y;
-                     Starmap.instance.changeState(StarMapState.MovingToPosition);
+                     StarmapComponent.instance.changeState(StarMapState.MovingToPosition);
                  }}
             />
-            <StarTooltip isHover={isHovering} width={Math.min(500, Starmap.width / 2 - (model.x - Starmap.x) - 50)} starModel = {model} name={model.name}></StarTooltip>
+            <StarTooltip isHover={isHovering} width={Math.min(500, StarmapComponent.width / 2 - (model.x - StarmapComponent.x) - 50)} starModel = {model} name={model.name}></StarTooltip>
         </div>)
 }
