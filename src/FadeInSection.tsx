@@ -2,6 +2,7 @@ import React, {Component, RefObject} from 'react';
 import './Main.css';
 
 interface IFISProps extends React.PropsWithChildren {
+    callback?:Function;
 }
 interface IFISState {
     isVisible:boolean;
@@ -16,14 +17,18 @@ export default class FadeInSection extends Component<IFISProps,IFISState> {
         this.state = {isVisible:false};
         this.domRef = React.createRef();
         this.observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {console.log("set state!");this.setState({isVisible:entry.isIntersecting})});
+            entries.forEach(entry => {
+                console.log("set state!");
+                this.setState({isVisible:entry.isIntersecting})
+                if(entry.isIntersecting && this.props.callback){
+                    this.props.callback();
+                }
+                });
         });
     }
     componentDidMount() {
 
-        console.log("Ran!");
         if (this.domRef.current != null) {
-            console.log("Not null!");
             this.observer.observe(this.domRef.current);
         }
     }

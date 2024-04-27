@@ -10,6 +10,7 @@ import {create} from "node:domain";
 import StarModel from "../Star/StarModel";
 import StarLine from '../StarLine/StarLine';
 import StarLineModel from '../StarLine/StarLineModel';
+import EventBus from '../EventBus';
 
 interface IStarMapProps {
 }
@@ -24,6 +25,7 @@ interface IStarMapState {
     starList:StarModel[]
     starLines:StarLineModel[]
     currentState: StarMapState;
+    showNotif:boolean
 }
 
 export default class StarmapComponent extends Component<IStarMapProps,IStarMapState> {
@@ -36,6 +38,7 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
     static instance: StarmapComponent
     objects:any[]
     states:any
+    timeoutInst?:NodeJS.Timeout;
     constructor(props: any){
         //Initialize
         super(props)
@@ -79,7 +82,10 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
 
 
         //Init state manager
-        this.state = {currentState:StarMapState.Idle, starList:starList, starLines:starLines};
+        this.state = {currentState:StarMapState.Idle, 
+            starList:starList, 
+            starLines:starLines,
+            showNotif:false};
         this.states = {
             [StarMapState.Idle]:new IdleState(),
             [StarMapState.MovingToPosition]:new MovingState(),
@@ -92,6 +98,21 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
             requestAnimationFrame(animate);
         };
         requestAnimationFrame(animate)
+
+        //Subscriptions
+        EventBus.getInstance().subscribe("showNotif",()=>{
+            this.setState({showNotif:true})
+            if(this.timeoutInst){
+                clearTimeout(this.timeoutInst)
+            }
+            this.timeoutInst = setTimeout(()=>{this.setState({showNotif:false})},5000)
+        })
+        EventBus.getInstance().subscribe("disableNotif",()=>{
+            this.setState({showNotif:false})
+            if(this.timeoutInst){
+                clearTimeout(this.timeoutInst)
+            }
+        })
     }
 
     //Update all subcomponents. Only objects that change state in their update function
@@ -138,12 +159,15 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
             return <StarLine model={slmodel}/>
         })
 
+
+
         return (
             <div className = "bg">
                 <ParticleSystem count={30}></ParticleSystem>
                 <p style = {{position:"absolute",height:0}}>{StarmapComponent.x},{StarmapComponent.y}</p>
                 {starsLines}
                 {stars}
+                {this.state.showNotif && <p className='notif-down'>ldsjkfdskjfl</p>}
             </div>
         );
     }

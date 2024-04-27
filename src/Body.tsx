@@ -5,8 +5,10 @@ import Star from './Star/Star';
 import ParticleSystem from "./ParticleSystem";
 import FadeInSection from "./FadeInSection";
 import {Fade} from "@chakra-ui/react";
+import EventBus from './EventBus';
 
 interface IBodyProps {
+    callback?:Function;
 }
 interface IBodyState {
     isVisible:boolean;
@@ -27,7 +29,7 @@ export default class Body extends Component<IBodyProps,IBodyState> {
                 <FadeInSection>
                     <h3 className={"body-subtitle"}>You are at: Home</h3>
                 </FadeInSection>
-                <FadeInSection>
+                <FadeInSection callback={()=>{EventBus.getInstance().call("disableNotif")}}>
                     <div className={"body-card"}>
                         <p className={"body-main"}>
                             Not what you expected out of a portfolio? Well actually, I had a more standard portfolio

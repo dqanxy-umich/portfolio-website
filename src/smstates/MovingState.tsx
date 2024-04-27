@@ -18,7 +18,7 @@ export default class MovingState extends BaseState{
         StarmapComponent.x = StarmapComponent.x + (this.targetX-StarmapComponent.x)*.02;
         StarmapComponent.y = StarmapComponent.y + (this.targetY-StarmapComponent.y)*.02;
 
-        if(this.animTimer>150){
+        if(this.animTimer>250){
             StarmapComponent.x = this.targetX;
             StarmapComponent.y = this.targetY;
             StarmapComponent.instance.changeState(StarMapState.Idle);
