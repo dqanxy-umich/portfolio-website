@@ -30,6 +30,8 @@ export default class StarModel {
     rotateMain:number
     rotateSecondary:number
 
+    children:StarModel[]
+
     constructor(props:IStarModelProps) {
         //Starmap.instance.starList.push(this);
         console.log(props.x)
@@ -51,6 +53,7 @@ export default class StarModel {
         this.name = props.name;
         this.scale = props.scale;
 
+        this.children = [];
         //this.starTooltipRef = React.createRef()
     }
     updateStar() {

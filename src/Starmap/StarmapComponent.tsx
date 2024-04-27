@@ -60,21 +60,26 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
                     x:starConfig.x,
                     y:starConfig.y,
                 }
-
-
-                starList.push(new StarModel(starProps));
+                let newModel = new StarModel(starProps);
+                starList.push(newModel);
             }
         )
 
+        let starLines:StarLineModel[] = []
 
         //Init starlines
-        // starList.forEach((star)=>{
-        //     star;
-        // }
+        Config['adjacency-matrix'].forEach((row:number[],i:number)=>{
+            row.forEach((val:number,j:number)=>{
+                console.log(i)
+                let newLine = new StarLineModel(starList[i],starList[val])
+                starList[i].children.push(starList[val])
+                starLines.push(newLine)
+            })
+        })
 
 
         //Init state manager
-        this.state = {currentState:StarMapState.Idle, starList:starList, starLines:[new StarLineModel(starList[0],starList[1])]};
+        this.state = {currentState:StarMapState.Idle, starList:starList, starLines:starLines};
         this.states = {
             [StarMapState.Idle]:new IdleState(),
             [StarMapState.MovingToPosition]:new MovingState(),
@@ -137,8 +142,8 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
             <div className = "bg">
                 <ParticleSystem count={30}></ParticleSystem>
                 <p style = {{position:"absolute",height:0}}>{StarmapComponent.x},{StarmapComponent.y}</p>
-                {stars}
                 {starsLines}
+                {stars}
             </div>
         );
     }
