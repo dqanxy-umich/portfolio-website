@@ -12,6 +12,8 @@ import StarLine from '../StarLine/StarLine';
 import StarLineModel from '../StarLine/StarLineModel';
 import EventBus from '../EventBus';
 
+import chevronimg from "../sprites/chevron.png";
+
 interface IStarMapProps {
 }
 export enum StarMapState{
@@ -167,7 +169,7 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
                 <p style = {{position:"absolute",height:0}}>{StarmapComponent.x},{StarmapComponent.y}</p>
                 {starsLines}
                 {stars}
-                {this.state.showNotif && <p className='notif-down'>ldsjkfdskjfl</p>}
+                {this.state.showNotif && <img className='notif-down' src={chevronimg}></img>}
             </div>
         );
     }

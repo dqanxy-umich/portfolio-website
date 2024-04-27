@@ -80,11 +80,13 @@ export default class StarLineModel {
         this.offsetY1 += this.veloY1;
         this.offsetY2 += this.veloY2;
 
-        if(this.opacityTimer<=200) this.opacity = .6;
-        if(this.opacityTimer<=180) this.opacity = 1;
-        if(this.opacityTimer<=160) this.opacity=.6
-        if(this.opacityTimer<=40) this.opacity = 1;
-        if(this.opacityTimer<=20) this.opacity = .6;
+        this.opacity = Math.min(Math.min(this.childStar.opacity,this.parentStar.opacity)+.2,1)
+
+        if(this.opacityTimer<=200) this.opacity *= .6;
+        if(this.opacityTimer<=180) this.opacity *= 1;
+        if(this.opacityTimer<=160) this.opacity *=.6
+        if(this.opacityTimer<=40) this.opacity *= 1;
+        if(this.opacityTimer<=20) this.opacity *= .6;
         if(this.opacityTimer<=0){
             this.opacity = 1;
             this.opacityTimer = Math.random()*1000+500;

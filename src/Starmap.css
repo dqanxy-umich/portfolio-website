@@ -53,9 +53,12 @@
 .notif-down{
 
     position: absolute;
-    top:70%;
-    margin-left:50%;
+    top:60%;
+    left:50%-35px;
+    width:70px;
+    height:70px;
     color: white;
+    
 
     
   animation: jumpInfinite 1.5s infinite;
