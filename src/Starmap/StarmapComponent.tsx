@@ -8,7 +8,8 @@ import IdleState from '../smstates/IdleState'
 import MovingState from "../smstates/MovingState";
 import {create} from "node:domain";
 import StarModel from "../Star/StarModel";
-import StarLine from '../StarLine';
+import StarLine from '../StarLine/StarLine';
+import StarLineModel from '../StarLine/StarLineModel';
 
 interface IStarMapProps {
 }
@@ -21,6 +22,7 @@ export enum StarMapState{
 
 interface IStarMapState {
     starList:StarModel[]
+    starLines:StarLineModel[]
     currentState: StarMapState;
 }
 
@@ -72,7 +74,7 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
 
 
         //Init state manager
-        this.state = {currentState:StarMapState.Idle, starList:starList};
+        this.state = {currentState:StarMapState.Idle, starList:starList, starLines:[new StarLineModel(starList[0],starList[1])]};
         this.states = {
             [StarMapState.Idle]:new IdleState(),
             [StarMapState.MovingToPosition]:new MovingState(),
@@ -99,7 +101,10 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
         let newStarList = this.state.starList.map((obj:StarModel)=>{
             return obj.updateStar();
         })
-        this.setState({starList:newStarList});
+        let newStarLineList = this.state.starLines.map((obj:StarLineModel)=>{
+            return obj.update();
+        })
+        this.setState({starList:newStarList, starLines:newStarLineList});
     }
 
     changeState(sms:StarMapState){
@@ -124,13 +129,16 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
         let stars:ReactElement[] = this.state.starList.map((smodel)=>{
             return <Star model={smodel}/>
         })
+        let starsLines:ReactElement[] = this.state.starLines.map((slmodel)=>{
+            return <StarLine model={slmodel}/>
+        })
 
         return (
             <div className = "bg">
                 <ParticleSystem count={30}></ParticleSystem>
                 <p style = {{position:"absolute",height:0}}>{StarmapComponent.x},{StarmapComponent.y}</p>
                 {stars}
-                <StarLine parentStar={this.state.starList[0]} childStar={this.state.starList[1]}></StarLine>
+                {starsLines}
             </div>
         );
     }
