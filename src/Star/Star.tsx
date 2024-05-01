@@ -26,39 +26,9 @@ export default function Star(props:IStarProps) {
         }
         model.isHovering = isHover;
 
-        //updateS(model);
-        console.log(model.isHovering)
-        console.log("HOver is set")
         setIsHovering(isHover);
     }
-    // function updateS(model:StarModel){
-    //     // starTooltipRef.current?.setState(
-    //     //     {
-    //     //         width: Math.min(500, Starmap.width / 2 - (model.x - Starmap.x) - 50)
-    //     //     })
-    //     model.updateStar()
-    //
-    //     setModel({...model, updateStar:model.updateStar })
-    //
-    // }
-    //
-    // if(!model.rendered){
-    //     Starmap.instance.objects.push({update:()=>updateS(model)})
-    // }
-
-
-    // const requestRef:any = React.useRef()
-    //
-    // const animate = () => {
-    //     update();
-    //     requestAnimationFrame(animate);
-    // };
-    //
-    // React.useEffect(() => {
-    //     requestRef.current = requestAnimationFrame(animate);
-    //     return () => cancelAnimationFrame(requestRef.current);
-    // }, []);
-    // requestAnimationFrame(animate)
+    
     return (
         <div style={{
             position:"absolute",
@@ -85,7 +55,7 @@ export default function Star(props:IStarProps) {
                      movState.targetX = model.x;
                      movState.targetY = model.y;
                      StarmapComponent.instance.changeState(StarMapState.MovingToPosition);
-                     EventBus.getInstance().call("showNotif")
+                     EventBus.getInstance().call("showNotif", props.model)
                  }}
             />
             <StarTooltip isHover={isHovering} width={Math.min(500, StarmapComponent.width / 2 - (model.x - StarmapComponent.x) - 50)} starModel = {model} name={model.name}></StarTooltip>

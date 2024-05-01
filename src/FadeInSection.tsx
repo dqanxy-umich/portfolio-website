@@ -12,13 +12,14 @@ export default class FadeInSection extends Component<IFISProps,IFISState> {
 
     domRef:any;
     observer:IntersectionObserver;
+    
     constructor(props:IFISProps){
         super(props);
         this.state = {isVisible:false};
         this.domRef = React.createRef();
+
         this.observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
-                console.log("set state!");
                 this.setState({isVisible:entry.isIntersecting})
                 if(entry.isIntersecting && this.props.callback){
                     this.props.callback();

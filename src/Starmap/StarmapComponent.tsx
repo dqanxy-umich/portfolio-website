@@ -38,14 +38,14 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
     static width: number
     static height: number
     static instance: StarmapComponent
-    objects:any[]
+    updateFunctions:any[]
     states:any
     timeoutInst?:NodeJS.Timeout;
     constructor(props: any){
         //Initialize
         super(props)
         console.log("Starmap is being built")
-        this.objects = []
+        this.updateFunctions = []
         StarmapComponent.x = 0;
         StarmapComponent.y = 0;
         StarmapComponent.zoom = 1;
@@ -56,6 +56,7 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
 
         StarmapComponent.instance = this
 
+        //Initialize stars
         Config.stars.forEach((starConfig)=>{
                 let starProps = {
                     //starmap:this,
@@ -82,7 +83,6 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
             })
         })
 
-
         //Init state manager
         this.state = {currentState:StarMapState.Idle, 
             starList:starList, 
@@ -92,6 +92,18 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
             [StarMapState.Idle]:new IdleState(),
             [StarMapState.MovingToPosition]:new MovingState(),
         };
+
+        //Update function for all starlines and stars
+        this.updateFunctions.push(()=>{
+            let newStarList = this.state.starList.map((obj:StarModel)=>{
+                return obj.updateStar();
+            })
+            let newStarLineList = this.state.starLines.map((obj:StarLineModel)=>{
+                return obj.update();
+            })
+            this.setState({starList:newStarList, starLines:newStarLineList});
+        })
+
 
         //Create global update function
         this.update = this.update.bind(this);
@@ -122,17 +134,11 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
     update(){
         StarmapComponent.width = window.innerWidth;
         this.states[this.state.currentState].update();
-        this.objects.forEach((obj:any)=>{
-                obj.update?.();
+        this.updateFunctions.forEach((func:any)=>{
+                func?.();
             }
         );
-        let newStarList = this.state.starList.map((obj:StarModel)=>{
-            return obj.updateStar();
-        })
-        let newStarLineList = this.state.starLines.map((obj:StarLineModel)=>{
-            return obj.update();
-        })
-        this.setState({starList:newStarList, starLines:newStarLineList});
+        
     }
 
     changeState(sms:StarMapState){
@@ -141,11 +147,6 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
         prevState.cancel();
         newState.start();
         this.setState({currentState:sms});
-    }
-
-    //Translate to display coordinates
-    static translateX(x:number){
-        return x - StarmapComponent.x + StarmapComponent.width/2;
     }
 
     render(){
@@ -164,12 +165,12 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
 
 
         return (
-            <div className = "bg">
+            <div className = "bg" onClick={this.states[this.state.currentState].onClick()}> 
                 <ParticleSystem count={30}></ParticleSystem>
                 <p style = {{position:"absolute",height:0}}>{StarmapComponent.x},{StarmapComponent.y}</p>
                 {starsLines}
                 {stars}
-                {this.state.showNotif && <img className='notif-down' src={chevronimg}></img>}
+                {this.state.showNotif && <img className='notif-down' src={chevronimg}></img>} 
             </div>
         );
     }

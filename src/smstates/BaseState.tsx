@@ -17,5 +17,6 @@ export default abstract class BaseState{
     }
     abstract update():void;
     cancel(){}
+    onClick(){}
 
 }

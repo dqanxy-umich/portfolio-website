@@ -45,8 +45,6 @@ export default class StarLineModel {
         this.displayY1 = this.lerp(y1,y2,scale)
         this.displayY2 = this.lerp(y2,y1,scale)
 
-        StarmapComponent.instance.objects.push(this)
-
     }
     lerp(a:number, b:number, t:number){
         return a + (b-a)*t
@@ -82,15 +80,15 @@ export default class StarLineModel {
 
         this.opacity = Math.min(Math.min(this.childStar.opacity,this.parentStar.opacity)+.2,1)
 
-        if(this.opacityTimer<=200) this.opacity *= .6;
-        if(this.opacityTimer<=180) this.opacity *= 1;
-        if(this.opacityTimer<=160) this.opacity *=.6
-        if(this.opacityTimer<=40) this.opacity *= 1;
-        if(this.opacityTimer<=20) this.opacity *= .6;
         if(this.opacityTimer<=0){
-            this.opacity = 1;
+            this.opacity *= 1;
             this.opacityTimer = Math.random()*1000+500;
         }
+        else if(this.opacityTimer<=20) this.opacity *= .6;
+        else if(this.opacityTimer<=40) this.opacity *= 1;
+        else if(this.opacityTimer<=160) this.opacity *= .6
+        else if(this.opacityTimer<=180) this.opacity *= 1;
+        else if(this.opacityTimer<=200) this.opacity *= .6;
         this.opacityTimer--;
 
 
