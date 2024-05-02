@@ -7,6 +7,10 @@ export default  class StateTemplate extends BaseState{
     constructor(){
         super();
     }
-    start(){}
-    update(){}
+    start(){
+
+    }
+    update(){
+        
+    }
 }

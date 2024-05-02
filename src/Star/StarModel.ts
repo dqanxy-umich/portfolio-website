@@ -61,12 +61,10 @@ export default class StarModel {
         this.rotateMult = Math.max(3, 100 - this.hoverTimer * .5);
         this.rotateMain += this.rotateVelocity * this.rotateMult;
         this.rotateSecondary += -5 * this.rotateVelocity;
-        let newDX = StarmapComponent.width / 2 + (this.x - StarmapComponent.x);
-        let newDY = StarmapComponent.height / 2 - (this.y - StarmapComponent.y);
+        this.displayX = StarmapComponent.width / 2 + (this.x - StarmapComponent.x);
+        this.displayY = StarmapComponent.height / 2 - (this.y - StarmapComponent.y);
 
         this.timer++;
-        this.displayX = newDX
-        this.displayY = newDY
         this.rendered = true;
         this.opacity = 1 - 2 * Math.max(
             Math.abs(this.x - StarmapComponent.x) / StarmapComponent.width,

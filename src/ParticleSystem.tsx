@@ -7,6 +7,10 @@ interface IPSProps{
     count:number;
 }
 
+interface IPSState {
+    particles: Particle[];
+}
+
 interface IParticleProps{
     x: number;
     y: number;
@@ -15,22 +19,25 @@ interface IParticleProps{
     timer: number;
 }
 
-interface IPSState {
-    particles: Particle[];
-}
-
 class Particle{
     x:number;
     y:number;
     xSpeed:number;
     ySpeed:number;
     timer:number;
-    constructor(props:IParticleProps){
-        this.x = props.x;
-        this.y = props.y;
-        this.xSpeed = props.xSpeed;
-        this.ySpeed = props.ySpeed;
-        this.timer = props.timer;
+    // constructor(props:IParticleProps){
+    //     this.x = props.x;
+    //     this.y = props.y;
+    //     this.xSpeed = props.xSpeed;
+    //     this.ySpeed = props.ySpeed;
+    //     this.timer = props.timer;
+    // }
+    constructor(){
+        this.x = Math.random()*StarmapComponent.width,
+        this.y = Math.random()*StarmapComponent.height,
+        this.xSpeed = .3*(Math.random()-.5),
+        this.ySpeed = .3*(Math.random()-.5),
+        this.timer = Math.random()*500 
     }
 
     particleUpdate(){
@@ -52,6 +59,14 @@ class Particle{
             this.ySpeed = 0;
         }
     }
+
+    render(){
+        return <img src={particleImg}
+                        style={{
+                            position:"absolute",
+                            marginLeft: this.x, marginTop: this.y,
+                            opacity:Math.min(50,Math.abs((this.timer+50)%500 - 50))/150}} />
+    }
 }
 
 export default class ParticleSystem extends Component<IPSProps,IPSState> {
@@ -60,12 +75,7 @@ export default class ParticleSystem extends Component<IPSProps,IPSState> {
         StarmapComponent.instance.updateFunctions.push(this.update.bind(this));
         let initialParticles:Particle[] = []
         for(let i = 0; i<props.count; i++){
-            initialParticles.push(new Particle({
-                x:Math.random()*StarmapComponent.width,
-                y:Math.random()*StarmapComponent.height,
-                xSpeed:.3*(Math.random()-.5),
-                ySpeed:.3*(Math.random()-.5),
-                timer:Math.random()*500 }))
+            initialParticles.push(new Particle())
         }
         this.state = { particles: initialParticles}
     }
@@ -82,11 +92,7 @@ export default class ParticleSystem extends Component<IPSProps,IPSState> {
 
     render(){
         let renderParticles = this.state.particles.map((particle: any) => {
-            return <img src={particleImg}
-                        style={{
-                            position:"absolute",
-                            marginLeft: particle.x, marginTop: particle.y,
-                            opacity:Math.min(50,Math.abs((particle.timer+50)%500 - 50))/150}} />
+            return particle.render()
         });
         return (
             <div style = {{position:"absolute",height:0}}>
