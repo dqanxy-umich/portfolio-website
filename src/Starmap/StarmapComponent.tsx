@@ -48,7 +48,7 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
         this.updateFunctions = []
         StarmapComponent.x = 0;
         StarmapComponent.y = 0;
-        StarmapComponent.zoom = 1;
+        StarmapComponent.zoom = .7;
         StarmapComponent.width = window.innerWidth;
         StarmapComponent.height = 500;
 

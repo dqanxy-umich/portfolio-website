@@ -26,6 +26,7 @@ export default class StarModel {
 
     name:string;
     scale:number;
+    size:number
 
     rotateMain:number
     rotateSecondary:number
@@ -51,7 +52,8 @@ export default class StarModel {
         this.x = props.x;
         this.y = props.y;
         this.name = props.name;
-        this.scale = props.scale;
+        this.size = props.scale;
+        this.scale = this.size * StarmapComponent.zoom * 25;
 
         this.children = [];
         //this.starTooltipRef = React.createRef()
@@ -61,9 +63,10 @@ export default class StarModel {
         this.rotateMult = Math.max(3, 100 - this.hoverTimer * .5);
         this.rotateMain += this.rotateVelocity * this.rotateMult;
         this.rotateSecondary += -5 * this.rotateVelocity;
-        this.displayX = StarmapComponent.width / 2 + (this.x - StarmapComponent.x);
-        this.displayY = StarmapComponent.height / 2 - (this.y - StarmapComponent.y);
+        this.displayX = StarmapComponent.width / 2 + (this.x - StarmapComponent.x)*StarmapComponent.zoom;
+        this.displayY = StarmapComponent.height / 2 - (this.y - StarmapComponent.y)*StarmapComponent.zoom;
 
+        this.scale = this.size * StarmapComponent.zoom * 25;
         this.timer++;
         this.rendered = true;
         this.opacity = 1 - 2 * Math.max(

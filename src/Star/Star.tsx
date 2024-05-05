@@ -37,15 +37,15 @@ export default function Star(props:IStarProps) {
             marginTop:model.displayY}}>
             <img src={starbgimg} style={{
                 position:"absolute",
-                marginLeft:-25*model.scale,marginTop:-25*model.scale,
-                width:50*model.scale,height:50*model.scale,
+                marginLeft:-model.scale,marginTop:-model.scale,
+                width:2*model.scale,height:2*model.scale,
                 transform: `rotate(${model.rotateSecondary}deg)`,
                 opacity:model.opacity}}/>
             <img src={starimg}
                  style={{
                      position:"absolute",
-                     marginLeft:-25*model.scale,marginTop:-25*model.scale,
-                     width:50*model.scale,height:50*model.scale,
+                     marginLeft:-model.scale,marginTop:-model.scale,
+                     width:2*model.scale,height:2*model.scale,
                      opacity:.8*model.opacity,
                      transform: `rotate(${model.rotateMain}deg)`}}
                  onMouseEnter={() => {setHover(true);}}

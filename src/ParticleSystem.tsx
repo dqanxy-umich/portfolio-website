@@ -11,32 +11,19 @@ interface IPSState {
     particles: Particle[];
 }
 
-interface IParticleProps{
-    x: number;
-    y: number;
-    xSpeed: number;
-    ySpeed: number;
-    timer: number;
-}
-
 class Particle{
     x:number;
     y:number;
     xSpeed:number;
     ySpeed:number;
     timer:number;
-    // constructor(props:IParticleProps){
-    //     this.x = props.x;
-    //     this.y = props.y;
-    //     this.xSpeed = props.xSpeed;
-    //     this.ySpeed = props.ySpeed;
-    //     this.timer = props.timer;
-    // }
+    
     constructor(){
-        this.x = Math.random()*StarmapComponent.width,
-        this.y = Math.random()*StarmapComponent.height,
-        this.xSpeed = .3*(Math.random()-.5),
-        this.ySpeed = .3*(Math.random()-.5),
+
+        this.x = Math.random()*StarmapComponent.width
+        this.y = Math.random()*StarmapComponent.height
+        this.xSpeed = .3*(Math.random()-.5)
+        this.ySpeed = .3*(Math.random()-.5)
         this.timer = Math.random()*500 
     }
 
