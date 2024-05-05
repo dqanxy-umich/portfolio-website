@@ -12,6 +12,9 @@ import StarLine from '../StarLine/StarLine';
 import StarLineModel from '../StarLine/StarLineModel';
 import EventBus from '../EventBus';
 
+import StarmapTutorial from './StarmapTutorial';
+import TutorialState from '../smstates/TutorialState';
+
 import chevronimg from "../sprites/chevron.png";
 
 interface IStarMapProps {
@@ -19,8 +22,8 @@ interface IStarMapProps {
 export enum StarMapState{
     Idle,
     MovingToPosition,
-    InitCutscene,
     FastTravel,
+    Tutorial
 }
 
 interface IStarMapState {
@@ -84,13 +87,14 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
         })
 
         //Init state manager
-        this.state = {currentState:StarMapState.Idle, 
+        this.state = {currentState:StarMapState.Tutorial, 
             starList:starList, 
             starLines:starLines,
             showNotif:false};
         this.states = {
             [StarMapState.Idle]:new IdleState(),
             [StarMapState.MovingToPosition]:new MovingState(),
+            [StarMapState.Tutorial]:new TutorialState(),
         };
 
         //Update function for all starlines and stars
@@ -165,13 +169,16 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
 
 
         return (
-            <div className = "bg" onClick={this.states[this.state.currentState].onClick()}> 
-                <ParticleSystem count={30}></ParticleSystem>
-                <p style = {{position:"absolute",height:0}}>{StarmapComponent.x},{StarmapComponent.y}</p>
-                {starsLines}
-                {stars}
-                {this.state.showNotif && <img className='notif-down' src={chevronimg}></img>} 
-            </div>
+            <React.Fragment>
+                <div className = "bg" onClick={this.states[this.state.currentState].onClick()}> 
+                    <ParticleSystem count={30}></ParticleSystem>
+                    <p style = {{position:"absolute",height:0}}>{StarmapComponent.x},{StarmapComponent.y}</p>
+                    {starsLines}
+                    {stars}
+                    {this.state.showNotif && <img className='notif-down' src={chevronimg}></img>} 
+                </div>
+                {this.state.currentState == StarMapState.Tutorial && <StarmapTutorial model = {this.states[this.state.currentState]}/>}
+            </React.Fragment>
         );
     }
 }
