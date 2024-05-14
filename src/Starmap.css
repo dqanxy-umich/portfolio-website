@@ -1,6 +1,7 @@
 .bg {
     background-color: black;
-    height: 500px;
+    height: 80vh;
+    width:100%;
 }
 
 .tooltip{
@@ -62,4 +63,27 @@
 
     
   animation: jumpInfinite 1.5s infinite;
+}
+
+.absolute{
+  width:100%;
+  height:80vh;
+  top:0;
+  margin:0;
+  padding:0;
+}
+
+.full{
+  position:relative;
+  width:100%;
+  height:100%;
+}
+.tutorial-box{
+  position:absolute;
+  width:20%;
+  height:20px;
+  margin-left:40%;
+  margin-top:300px;
+  background-color: white;
+  color:white;
 }

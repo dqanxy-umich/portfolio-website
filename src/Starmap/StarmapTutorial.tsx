@@ -1,4 +1,5 @@
 import TutorialState from "../smstates/TutorialState"
+import '../Starmap.css';
 
 interface ISTutorial {
     model:TutorialState
@@ -6,6 +7,6 @@ interface ISTutorial {
 
 export default function StarmapTutorial(props:ISTutorial) {
     return (
-        <p>tutorial</p>
+            <div className="tutorial-box"></div>
     )
 }

@@ -176,8 +176,8 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
                     {starsLines}
                     {stars}
                     {this.state.showNotif && <img className='notif-down' src={chevronimg}></img>} 
+                    {this.state.currentState == StarMapState.Tutorial && <StarmapTutorial model = {this.states[this.state.currentState]}/>}
                 </div>
-                {this.state.currentState == StarMapState.Tutorial && <StarmapTutorial model = {this.states[this.state.currentState]}/>}
             </React.Fragment>
         );
     }
