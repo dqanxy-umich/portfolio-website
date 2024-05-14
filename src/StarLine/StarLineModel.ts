@@ -10,10 +10,6 @@ import StarModel from '../Star/StarModel';
 export default class StarLineModel {
     parentStar: StarModel;
     childStar: StarModel;
-    displayX1: number;
-    displayX2: number;
-    displayY1: number;
-    displayY2: number;
 
     veloX1:number = 0;
     veloX2:number = 0;
@@ -39,11 +35,6 @@ export default class StarLineModel {
         let x2 = childStar.displayX;
         let y1 = parentStar.displayY;
         let y2 = childStar.displayY;
-        let scale = .85;
-        this.displayX1 = this.lerp(x1,x2,scale)
-        this.displayX2 = this.lerp(x2,x1,scale)
-        this.displayY1 = this.lerp(y1,y2,scale)
-        this.displayY2 = this.lerp(y2,y1,scale)
 
     }
     lerp(a:number, b:number, t:number){
@@ -51,11 +42,6 @@ export default class StarLineModel {
     }
 
     update(){
-        let x1 = this.parentStar.displayX;
-        let x2 = this.childStar.displayX;
-        let y1 = this.parentStar.displayY;
-        let y2 = this.childStar.displayY;
-        let scale = .85;
 
         if(this.targetTimer<=0){
             let randScale = 5
@@ -90,13 +76,22 @@ export default class StarLineModel {
         else if(this.opacityTimer<=180) this.opacity *= 1;
         else if(this.opacityTimer<=200) this.opacity *= .6;
         this.opacityTimer--;
-
-
-        this.displayX1 = this.lerp(x1,x2,scale) + this.offsetX1
-        this.displayX2 = this.lerp(x2,x1,scale) + this.offsetX2
-        this.displayY1 = this.lerp(y1,y2,scale) + this.offsetY1
-        this.displayY2 = this.lerp(y2,y1,scale) + this.offsetY2
         
         return this
+    }
+
+    getCoords(scale:number){
+
+        let x1 = this.parentStar.displayX;
+        let x2 = this.childStar.displayX;
+        let y1 = this.parentStar.displayY;
+        let y2 = this.childStar.displayY;
+
+        let X1 = this.lerp(x1,x2,scale) + this.offsetX1
+        let X2 = this.lerp(x2,x1,scale) + this.offsetX2
+        let Y1 = this.lerp(y1,y2,scale) + this.offsetY1
+        let Y2 = this.lerp(y2,y1,scale) + this.offsetY2
+
+        return {X1:X1,X2:X2,Y1:Y1,Y2:Y2}
     }
 }
