@@ -51,10 +51,6 @@ export default function Star(props:IStarProps) {
                  onMouseEnter={() => {setHover(true);}}
                  onMouseLeave={() => setHover(false)}
                  onClick={()=>{
-                     let movState = StarmapComponent.instance.states[StarMapState.MovingToPosition]
-                     movState.targetX = model.x;
-                     movState.targetY = model.y;
-                     StarmapComponent.instance.changeState(StarMapState.MovingToPosition);
                      EventBus.getInstance().call("starClicked", props.model)
                  }}
             />

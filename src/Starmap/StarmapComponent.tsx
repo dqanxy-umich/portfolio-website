@@ -121,12 +121,17 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
         requestAnimationFrame(animate)
 
         //Subscriptions
-        EventBus.getInstance().subscribe("starClicked",()=>{
+        EventBus.getInstance().subscribe("starClicked",(model:StarModel)=>{
             this.setState({showNotif:true})
             if(this.timeoutInst){
                 clearTimeout(this.timeoutInst)
             }
             this.timeoutInst = setTimeout(()=>{this.setState({showNotif:false})},5000)
+
+            let movState = StarmapComponent.instance.states[StarMapState.MovingToPosition]
+            movState.targetX = model.x;
+            movState.targetY = model.y;
+            StarmapComponent.instance.changeState(StarMapState.MovingToPosition);
         })
         EventBus.getInstance().subscribe("disableNotif",()=>{
             this.setState({showNotif:false})
