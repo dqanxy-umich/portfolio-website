@@ -60,6 +60,7 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
         StarmapComponent.instance = this
 
         //Initialize stars
+        let count = 0;
         Config.stars.forEach((starConfig)=>{
                 let starProps = {
                     //starmap:this,
@@ -68,7 +69,9 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
                     scale:starConfig.scale,
                     x:starConfig.x,
                     y:starConfig.y,
+                    id:count,
                 }
+                count++;
                 let newModel = new StarModel(starProps);
                 starList.push(newModel);
             }

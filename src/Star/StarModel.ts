@@ -9,9 +9,12 @@ export interface IStarModelProps {
     x:number;
     y:number;
     scale:number;
+    id:number;
 }
 
 export default class StarModel {
+    id:number;
+
     timer:number;
     displayX:number;
     displayY:number;
@@ -36,6 +39,8 @@ export default class StarModel {
     constructor(props:IStarModelProps) {
         //Starmap.instance.starList.push(this);
         console.log(props.x)
+        this.id = props.id;
+
         this.timer=Math.random()*300
         this.displayX=0
         this.displayY=0
