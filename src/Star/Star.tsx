@@ -55,7 +55,7 @@ export default function Star(props:IStarProps) {
                      movState.targetX = model.x;
                      movState.targetY = model.y;
                      StarmapComponent.instance.changeState(StarMapState.MovingToPosition);
-                     EventBus.getInstance().call("showNotif", props.model)
+                     EventBus.getInstance().call("starClicked", props.model)
                  }}
             />
             <StarTooltip isHover={isHovering} width={Math.min(500, StarmapComponent.width / 2 - (model.x - StarmapComponent.x) - 50)} starModel = {model} name={model.name}></StarTooltip>

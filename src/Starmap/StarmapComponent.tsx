@@ -118,7 +118,7 @@ export default class StarmapComponent extends Component<IStarMapProps,IStarMapSt
         requestAnimationFrame(animate)
 
         //Subscriptions
-        EventBus.getInstance().subscribe("showNotif",()=>{
+        EventBus.getInstance().subscribe("starClicked",()=>{
             this.setState({showNotif:true})
             if(this.timeoutInst){
                 clearTimeout(this.timeoutInst)
