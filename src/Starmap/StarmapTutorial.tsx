@@ -11,10 +11,10 @@ export default function StarmapTutorial(props:ISTutorial) {
 
     let box1 = 
     <div className="fade-in-anim">
-        <Card style={{"width":400}}>
+        <Card style={{"width":400}} borderWidth={2} borderColor="#CCCCCC" bgGradient="linear(to-tr, #29093d,#090236)" textColor="white" fontWeight={400}> 
             <CardHeader>
                 <Center>
-                    <Text>Welcome...</Text>
+                    <Text fontSize={"160%"}>Welcome...</Text>
                 </Center>
             </CardHeader>
             <CardBody>
