@@ -9,7 +9,7 @@ export default  class TutorialState extends BaseState{
 
     constructor(){
         super();
-        this.state = -1;
+        this.state = 0;
         EventBus.getInstance().subscribe("starClicked", (starModel:StarModel)=>{
             if(true && this.state == 0){ //Set to only home
                 this.state = 1;

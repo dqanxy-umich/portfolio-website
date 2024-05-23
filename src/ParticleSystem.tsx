@@ -20,8 +20,8 @@ class Particle{
     
     constructor(){
 
-        this.x = Math.random()*StarmapComponent.width
-        this.y = Math.random()*StarmapComponent.height
+        this.x = Math.random()*StarmapComponent.width - 10000
+        this.y = Math.random()*StarmapComponent.height - 10000
         this.xSpeed = .3*(Math.random()-.5)
         this.ySpeed = .3*(Math.random()-.5)
         this.timer = Math.random()*500 
@@ -51,6 +51,8 @@ class Particle{
         return <img src={particleImg}
                         style={{
                             position:"absolute",
+                            maxWidth: 150,
+                            maxHeight: 150,
                             marginLeft: this.x, marginTop: this.y,
                             opacity:Math.min(50,Math.abs((this.timer+50)%500 - 50))/150}} />
     }

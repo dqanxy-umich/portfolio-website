@@ -6,6 +6,7 @@ import Body, { BodyModel } from "./Body";
 import EventBus from './EventBus';
 import StarModel from './Star/StarModel';
 import StarBodies from './smstates/starBodies.json'
+import { ChakraProvider } from '@chakra-ui/react';
 
 function App() {
   const [bodyModel, setModel] = useState(new BodyModel())

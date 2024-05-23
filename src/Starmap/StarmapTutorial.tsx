@@ -1,4 +1,5 @@
 import { Center } from "@chakra-ui/react";
+import { Card, CardHeader, CardBody, CardFooter, Text } from '@chakra-ui/react'
 import TutorialState from "../smstates/TutorialState"
 import '../Starmap.css';
 
@@ -10,14 +11,27 @@ export default function StarmapTutorial(props:ISTutorial) {
 
     let box1 = 
     <div className="fade-in-anim">
+        <Card style={{"width":400}}>
+            <CardHeader>
+                <Center>
+                    <Text>Welcome...</Text>
+                </Center>
+            </CardHeader>
+            <CardBody>
+                <Text>
+                    Please select a star to travel there.
+                </Text>
+            </CardBody>
+        </Card>
+{/* 
         <div className="tutorial-box">
             <p className="text-header" style={{"margin":0, "textAlign":"left", "width":"100%", "height":34}}> 
-                Welcome...
+                
             </p>
             <p className="text-standard" style={{"margin":0, "textAlign":"left", "width":"100%"}}>
-                Please select a star to travel there.
+                
                 </p>
-        </div>
+        </div> */}
     </div>
     let box2 = 
     <div className="fade-in-anim">

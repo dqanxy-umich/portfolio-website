@@ -32,11 +32,17 @@ export default function Star(props:IStarProps) {
     return (
         <div style={{
             position:"absolute",
+            overflowClipBox:"initial",
+            overflowX:"visible",
+            overflowY:"visible",
             height:0,
             marginLeft:model.displayX,
             marginTop:model.displayY}}>
             <img src={starbgimg} style={{
                 position:"absolute",
+                color:"white",
+                maxWidth: 150,
+                maxHeight: 150,
                 marginLeft:-model.scale,marginTop:-model.scale,
                 width:2*model.scale,height:2*model.scale,
                 transform: `rotate(${model.rotateSecondary}deg)`,
@@ -47,6 +53,9 @@ export default function Star(props:IStarProps) {
                      marginLeft:-model.scale,marginTop:-model.scale,
                      width:2*model.scale,height:2*model.scale,
                      opacity:.8*model.opacity,
+                     color:"white",
+                     maxWidth: 150,
+                     maxHeight: 150,
                      transform: `rotate(${model.rotateMain}deg)`}}
                  onMouseEnter={() => {setHover(true);}}
                  onMouseLeave={() => setHover(false)}
